@@ -8,20 +8,19 @@ const app = express();
 dotenv.config();
 
 // Internal Import
-const {
-  notFoundHandler,
-  errorHandler,
-} = require("./middlewares/common/errorHandler");
+const {notFoundHandler, errorHandler } = require("./middlewares/common/errorHandler");
+const loginRouter = require('./router/loginRouter');
+const usersRouter = require("./router/usersRouter");
+const inboxRouter = require("./router/inboxRouter");
 
 
 // database connection
-
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("database connection successful !!!"))
+  .then(() => console.log("database connection successful!!!"))
   .catch((err) => console.log(err));
     
 
@@ -42,7 +41,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // routing setup
-
+app.use("/", loginRouter)
+app.use("/users", usersRouter)
+app.use("/inbox", inboxRouter)
 
 // 404 not found handler
 app.use(notFoundHandler);
