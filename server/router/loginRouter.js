@@ -3,11 +3,12 @@ const express = require("express");
 
 // internal imports
 const router = express.Router();
-const {getLogin } = require("../controller/loginController");
+const { getLogin } = require("../controller/loginController");
+const decorateHtmlResponse = require("../middlewares/common/decorateHtmlResponse");
 
 
 // login Router
-router.get("/", getLogin);
+router.get("/", decorateHtmlResponse("Login"), getLogin);
 
 
 
